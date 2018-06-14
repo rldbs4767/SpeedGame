@@ -1,4 +1,13 @@
 #include "com_example_gimgiyun_speedgame2_TextLcd.h"
+#include <jni.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <sys/mman.h>
+#include <termios.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #define TEXTLCD_BASE 0xbc
 #define TEXTLCD_COMMAND_SET _IOW(TEXTLCD_BASE, 0, int)
@@ -11,14 +20,13 @@
 #define TEXTLCD_DD_ADDRESS _IOW(TEXTLCD_BASE, 7, int)
 #define TEXTLCD_WRITE_BYTE _IOW(TEXTLCD_BASE, 8, int)
 
-int fd = -1;
+//int fd = -1;
 
 struct strcommand_variable{
     char rows;
     char nfonts;
     char display_enable;
     char cursor_enable;
-
     char nblink;
     char set_screen;
     char set_rightshit;
@@ -52,9 +60,11 @@ void init(){
 }
 
 int TextLCDIoctol(int cmd, char* buf){
-    int ret, i;
 
-    if (fd < 0) fd = open("/dev/fpga_textlcd", O_WRONLY | O_NDELAY);
+    int ret, i,fd;
+
+    fd = open("/dev/fpga_textlcd", O_WRONLY | O_NDELAY);
+
     if (fd < 0) return -errno;
 
     if (cmd == TEXTLCD_WRITE_BYTE) {
@@ -66,26 +76,29 @@ int TextLCDIoctol(int cmd, char* buf){
     }else{
         ret = ioctl(fd, cmd, &strcommand, 32);
         }
+
     close(fd);
-    fd = -1;
+
     return ret;
 }
-
+/*
 JNIEXPORT jboolean JNICALL Java_com_example_gimgiyun_speedgame2_TextLcd_open
         (JNIEnv *env, jobject obj) {
+
     fd = open("/dev/fpga_textlcd", O_WRONLY | O_NDELAY);
     if (fd < 0) return -errno;
     else return 1;
 }
-
+*/
 
 JNIEXPORT jint JNICALL Java_com_example_gimgiyun_speedgame2_TextLcd_control
         (JNIEnv *env, jobject obj, jstring str, jstring str2){
+
     jboolean iscopy;
     char *buf0, *buf1;
-    int ret;
+    int ret,fd;
 
-    if (fd < 0) fd = open("/dev/fpga_textlcd", O_WRONLY | O_NDELAY);
+    fd = open("/dev/fpga_textlcd", O_WRONLY | O_NDELAY);
     if (fd < 0) return -errno;
 
     init();
@@ -102,7 +115,7 @@ JNIEXPORT jint JNICALL Java_com_example_gimgiyun_speedgame2_TextLcd_control
     ret = write(fd, buf1, strlen(buf1));
 
     close(fd);
-    fd = -1;
+
 
     return ret;
 }
@@ -130,7 +143,7 @@ JNIEXPORT jint JNICALL Java_com_example_gimgiyun_speedgame2_TextLcd_IOCtlDisplay
     return TextLCDIoctol(TEXTLCD_DISPLAY_CONTROL,NULL);
 }
 
-JNIEXPORT jint JNICALL Java_com_example_gimgiyun_speedgame2_TextLCD_IOCtlCursor
+JNIEXPORT jint JNICALL Java_com_example_gimgiyun_speedgame2_TextLcd_IOCtlCursor
         ( JNIEnv* env, jobject obj, jboolean data){
     init();
     if (data) {
@@ -142,11 +155,12 @@ JNIEXPORT jint JNICALL Java_com_example_gimgiyun_speedgame2_TextLCD_IOCtlCursor
 }
 
 
-JNIEXPORT jint JNICALL Java_com_example_gimgiyun_speedgame2_TextLCD_IOCtlBlink
+JNIEXPORT jint JNICALL Java_com_example_gimgiyun_speedgame2_TextLcd_IOCtlBlink
         ( JNIEnv* env, jobject obj, jboolean data){
     init();
-    if (data)
+    if (data){
         strcommand.nblink = 0x01;
-    else strcommand.nblink = 0x00;
+    } else
+        strcommand.nblink = 0x00;
     return TextLCDIoctol(TEXTLCD_DISPLAY_CONTROL, NULL);
 }

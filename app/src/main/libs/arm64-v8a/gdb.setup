@@ -1,2 +1,0 @@
-set solib-search-path ./obj/local/arm64-v8a
-directory /Users/gimgiyun/Library/Android/sdk/ndk-bundle/sysroot jni /Users/gimgiyun/Library/Android/sdk/ndk-bundle/sources/cxx-stl/system

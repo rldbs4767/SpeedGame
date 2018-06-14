@@ -22,6 +22,8 @@ public class FirstActivity extends AppCompatActivity{
     int cnt = 1;
     boolean last;
 
+    private TextLcd textLcd;
+
     Chronometer chronometer;
 
     List<Integer> First_list = new ArrayList<Integer>();
@@ -89,6 +91,9 @@ public class FirstActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
+
+        textLcd = new TextLcd();
+        textLcd.UpdateValue("Now","Playing");
 
         final Chronometer chronometer = (Chronometer)findViewById(R.id.chronometer);
         chronometer.setBase(SystemClock.elapsedRealtime());

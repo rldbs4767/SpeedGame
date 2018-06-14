@@ -23,6 +23,8 @@ public class SecondActivity extends AppCompatActivity{
     int cnt = 1; //숫자의 순서를 맞추기 위한 변수.
     boolean last; //숫자의 마지막을 확인하기 위한 변수.
 
+    private TextLcd textLcd;
+
     Chronometer chronometer;//타이머
 
     List<Integer> Second_list = new ArrayList<Integer>(); //16개의 숫자를 list에 넣는다.
@@ -68,6 +70,8 @@ public class SecondActivity extends AppCompatActivity{
                 buttons[i].setText("0");
                 buttons[i].setEnabled(false); //버튼 비활성화
                 chronometer.stop();
+                textLcd = new TextLcd();
+                textLcd.UpdateValue("Finish","Bye");
                 show();
                 return true;
             }

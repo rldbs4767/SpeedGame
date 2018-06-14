@@ -4,23 +4,16 @@
 #include <errno.h>
 #include <sys/mman.h>
 #include <termios.h>
-#include <unistd.h>
 #include <string.h>
+#include <unistd.h>
 /* Header for class com_example_gimgiyun_speedgame2_TextLcd */
 
 #ifndef _Included_com_example_gimgiyun_speedgame2_TextLcd
 #define _Included_com_example_gimgiyun_speedgame2_TextLcd
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-/*
- * Class:     com_example_gimgiyun_speedgame2_TextLcd
- * Method:    open
- * Signature: ()Z
- */
-JNIEXPORT jboolean JNICALL Java_com_example_gimgiyun_speedgame2_TextLcd_open
-  (JNIEnv *, jobject);
-
 /*
  * Class:     com_example_gimgiyun_speedgame2_TextLcd
  * Method:    control
@@ -35,14 +28,6 @@ JNIEXPORT jint JNICALL Java_com_example_gimgiyun_speedgame2_TextLcd_control
  * Signature: ()I
  */
 JNIEXPORT jint JNICALL Java_com_example_gimgiyun_speedgame2_TextLcd_clear
-  (JNIEnv *, jobject);
-
-/*
- * Class:     com_example_gimgiyun_speedgame2_TextLcd
- * Method:    close
- * Signature: ()Z
- */
-JNIEXPORT jboolean JNICALL Java_com_example_gimgiyun_speedgame2_TextLcd_close
   (JNIEnv *, jobject);
 
 /*

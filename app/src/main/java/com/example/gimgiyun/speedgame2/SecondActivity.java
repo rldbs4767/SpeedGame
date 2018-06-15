@@ -107,7 +107,7 @@ public class SecondActivity extends AppCompatActivity{
             final Chronometer chronometer = (Chronometer)findViewById(R.id.chronometer);
             chronometer.setBase(SystemClock.elapsedRealtime());
             led = new LED();
-            led.Turn_on(0xaa);
+            led.Turn_on(0xff);
 
             //16개의 버튼 사용
             for(int i=0; i<16; i++)

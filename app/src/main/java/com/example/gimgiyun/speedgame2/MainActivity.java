@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         led = new LED();
 
         textLcd.UpdateValue("Are you ready?","Let's Go");
+        led.Turn_on(0x00);
 
         Button start_button = (Button)findViewById(R.id.start_button);
 
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                led.Control(0x10);
+                led.Turn_on(0xff);
                 Intent intent = new Intent(MainActivity.this, FirstActivity.class);
                 startActivity(intent);
             }

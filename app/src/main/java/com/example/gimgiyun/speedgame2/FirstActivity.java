@@ -23,6 +23,7 @@ public class FirstActivity extends AppCompatActivity{
     boolean last;
 
     private TextLcd textLcd;
+    private LED led;
 
     Chronometer chronometer;
 
@@ -45,6 +46,7 @@ public class FirstActivity extends AppCompatActivity{
 
                 public void onClick(DialogInterface dialog, int which){
 
+                    led.Turn_on(0xff);
                     Intent intent = new Intent(FirstActivity.this, SecondActivity.class);
                     intent.putExtra("res",Long.toString((SystemClock.elapsedRealtime()-chronometer.getBase())/1000) );
                     startActivity(intent);
@@ -94,6 +96,9 @@ public class FirstActivity extends AppCompatActivity{
 
         textLcd = new TextLcd();
         textLcd.UpdateValue("Now","Playing");
+        led = new LED();
+
+        led.Turn_on(0x0f);
 
         final Chronometer chronometer = (Chronometer)findViewById(R.id.chronometer);
         chronometer.setBase(SystemClock.elapsedRealtime());

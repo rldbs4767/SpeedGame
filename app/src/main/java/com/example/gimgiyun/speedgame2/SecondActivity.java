@@ -22,14 +22,28 @@ public class SecondActivity extends AppCompatActivity{
     int i;
     int cnt = 1; //숫자의 순서를 맞추기 위한 변수.
     boolean last; //숫자의 마지막을 확인하기 위한 변수.
+    int data[] = {0x01,0x3,0x7,0x15,0x1f,0x3f,0x7f,0xff};
 
     private TextLcd textLcd;
-
+    private LED led;
     Chronometer chronometer;//타이머
 
     List<Integer> Second_list = new ArrayList<Integer>(); //16개의 숫자를 list에 넣는다.
     Button buttons[] = new Button[16]; //16개의 버튼을 배열로 나타냄
     int numBtnID[] = {R.id.button1, R.id.button2, R.id.button3, R.id.button4, R.id.button5, R.id.button6, R.id.button7, R.id.button8 ,R.id.button9,R.id.button10, R.id.button11, R.id.button12, R.id.button13, R.id.button14, R.id.button15, R.id.button16};
+
+    void LED_playing(){
+
+        led = new LED();
+        for(int j=0; j<2; j++){
+
+            for(int i=0; i<8; i++) {
+                led.Turn_on(data[i]);
+                SystemClock.sleep(50);
+            }
+        }
+
+    }
 
     //알림 띄우는 부분.
     void show(){
@@ -63,6 +77,8 @@ public class SecondActivity extends AppCompatActivity{
     boolean button_conrol(){
 
         final Chronometer chronometer = (Chronometer)findViewById(R.id.chronometer);
+        textLcd = new TextLcd();
+        led = new LED();
 
         if((Integer.parseInt(buttons[i].getText().toString()) - cnt) == 0){ //button의 숫자와 cnt가 같을 때,
 
@@ -70,8 +86,8 @@ public class SecondActivity extends AppCompatActivity{
                 buttons[i].setText("0");
                 buttons[i].setEnabled(false); //버튼 비활성화
                 chronometer.stop();
-                textLcd = new TextLcd();
-                textLcd.UpdateValue("Finish","Bye");
+                LED_playing(); //LED 깜빡깜빡!
+                textLcd.UpdateValue("Finish!","Good-Bye");
                 show();
                 return true;
             }
@@ -90,6 +106,8 @@ public class SecondActivity extends AppCompatActivity{
 
             final Chronometer chronometer = (Chronometer)findViewById(R.id.chronometer);
             chronometer.setBase(SystemClock.elapsedRealtime());
+            led = new LED();
+            led.Turn_on(0xaa);
 
             //16개의 버튼 사용
             for(int i=0; i<16; i++)

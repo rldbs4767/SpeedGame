@@ -17,7 +17,8 @@ JNIEXPORT jint JNICALL Java_com_example_gimgiyun_speedgame2_LED_Control
 
     int fd,ret;
 
-    fd = open("/dev/led",O_WRONLY);
+    fd = open("/dev/fpga_led",O_WRONLY);
+
     if(fd<0) return errno;
 
     if(fd>0){
